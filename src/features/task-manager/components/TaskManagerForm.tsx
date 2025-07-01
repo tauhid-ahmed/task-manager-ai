@@ -106,9 +106,10 @@ function FormHeader({ editingMode }: Props) {
 }
 
 function FormFooter({ editingMode }: Props) {
+  const { handleCloseModal } = useTaskManager();
   return (
     <div className="flex justify-end gap-4">
-      <Button type="button" variant="outline">
+      <Button onClick={handleCloseModal} type="button" variant="outline">
         Cancel
       </Button>
       <Button type="submit">
