@@ -15,7 +15,7 @@ export default function TaskProgress({ subTasks }: Props) {
         <span className="text-muted-foreground">100% complete</span>
       </div>
       <div className="rounded-full h-2 bg-violet-50 overflow-hidden relative">
-        <div className="origin-bottom-left scale-x-10 bg-violet-500 absolute inset-0 rounded-full"></div>
+        <div className="origin-bottom-left scale-x-10 bg-violet-500 absolute inset-0 rounded-tl-full rounded-bl-full"></div>
       </div>
     </div>
   );
