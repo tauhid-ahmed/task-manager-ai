@@ -3,7 +3,8 @@
 import {
   type TaskManagerEvent,
   type TaskManagerState,
-  NewTask,
+  type NewTask,
+  type Task,
 } from "@/features/task-manager/types/task-manager.types";
 import { useReducer } from "react";
 
@@ -15,14 +16,14 @@ const initialState: TaskManagerState = {
       title: "Task 1",
       description: "Task 1 description",
       status: "pending",
-      dueDate: "today",
+      dueDate: "2025-07-15",
     },
     {
       id: crypto.randomUUID(),
       title: "Task 2",
       description: "Task 2 description",
       status: "completed",
-      dueDate: "today",
+      dueDate: "2025-07-15",
     },
   ],
 };
@@ -69,7 +70,7 @@ function taskManagerReducer(
     // ✅ Edit an existing task
     case "UPDATE_TASK": {
       if (state.status !== "editing") return state;
-      const { task: updatedTask } = action.payload;
+      const { updatedTask } = action.payload;
 
       return {
         status: "idle",
@@ -142,6 +143,10 @@ export const useTaskReducer = () => {
     dispatch({ type: "ADD_TASK", payload });
   };
 
+  const editTask = (payload: { updatedTask: NewTask }) => {
+    dispatch({ type: "UPDATE_TASK", payload });
+  };
+
   const changeStatus = (taskId: string) => {
     dispatch({ type: "CHANGE_STATUS", payload: { taskId } });
   };
@@ -165,6 +170,7 @@ export const useTaskReducer = () => {
     state,
     dispatch,
     addTask,
+    editTask,
     changeStatus,
     handleNewTaskButtonClick,
     handleEditTaskButtonClick,

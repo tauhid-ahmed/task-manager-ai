@@ -37,7 +37,7 @@ export type TaskManagerEvent =
   | { type: "DELETE_BUTTON_CLICKED"; payload: { taskId: string } }
   | { type: "DELETE_TASK" }
   | { type: "EDIT_BUTTON_CLICKED"; payload: { taskId: string } }
-  | { type: "UPDATE_TASK"; payload: { task: Task } }
+  | { type: "UPDATE_TASK"; payload: { updatedTask: NewTask } }
   | {
       type: "GENERATE_SUBTASKS";
       payload: { taskId: string; subTasks: SubTask[] };
