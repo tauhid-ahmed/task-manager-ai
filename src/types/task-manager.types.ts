@@ -15,7 +15,7 @@ export interface Task {
   description: string;
   dueDate: string;
   status: TaskStatus;
-  subTasks?: SubTask[]; // ✅ plural & array
+  subTasks?: SubTask[];
 }
 
 export type Tasks = Task[];
@@ -30,24 +30,15 @@ export type TaskManagerState =
 
 // ✅ Events
 export type TaskManagerEvent =
-  | { type: "ADD_NEW_TASK"; payload: { newTask: Task } }
+  | { type: "ADD_TASK"; payload: { newTask: Task } }
   | { type: "DELETE_TASK"; payload: { taskId: string } }
   | { type: "EDIT_TASK"; payload: { taskId: string } }
   | {
-      type: "GENERATE_SUBTASK_TASK";
-      payload: {
-        taskId: string;
-        subTasks: SubTask[];
-      };
+      type: "GENERATE_SUBTASKS";
+      payload: { taskId: string; subTasks: SubTask[] };
     }
   | {
-      type: "REGENERATE_SUBTASK_TASK";
-      payload: {
-        taskId: string;
-        subTasks: SubTask[];
-      };
+      type: "REGENERATE_SUBTASKS";
+      payload: { taskId: string; subTasks: SubTask[] };
     }
-  | {
-      type: "CHANGE_STATUS";
-      payload: { taskId: string };
-    };
+  | { type: "CHANGE_STATUS"; payload: { taskId: string } };
