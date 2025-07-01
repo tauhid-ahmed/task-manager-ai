@@ -17,17 +17,17 @@ const initialState: TaskManagerState = {
       status: "pending",
       dueDate: "2025-07-15",
       subTasks: [
-        // { id: crypto.randomUUID(), title: "SubTask 1", status: "pending" },
-        // { id: crypto.randomUUID(), title: "SubTask 2", status: "pending" },
-        // { id: crypto.randomUUID(), title: "SubTask 3", status: "completed" },
-        // { id: crypto.randomUUID(), title: "SubTask 4", status: "pending" },
+        { id: crypto.randomUUID(), title: "SubTask 1", status: "pending" },
+        { id: crypto.randomUUID(), title: "SubTask 2", status: "pending" },
+        { id: crypto.randomUUID(), title: "SubTask 3", status: "completed" },
+        { id: crypto.randomUUID(), title: "SubTask 4", status: "pending" },
       ],
     },
     {
       id: crypto.randomUUID(),
       title: "Task 2",
       description: "Task 2 description",
-      status: "completed",
+      status: "pending",
       dueDate: "2025-07-15",
       subTasks: [
         { id: crypto.randomUUID(), title: "SubTask 10", status: "completed" },
