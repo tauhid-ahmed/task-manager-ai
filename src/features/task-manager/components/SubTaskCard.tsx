@@ -14,7 +14,7 @@ type Props = {
 export default function SubTaskCard({ subTasks }: Props) {
   if (!subTasks || subTasks.length <= 0) return null;
   return (
-    <div className="bg-violet-50/50 p-4 mt-10 border border-violet-200/50 rounded space-y-4">
+    <div className="bg-violet-50/70 p-4 mt-10 border border-violet-200/50 rounded space-y-4">
       <h3 className="flex items-center text-violet-500 font-semibold gap-2">
         <LucideSparkles /> AI Suggested Subtasks
       </h3>
