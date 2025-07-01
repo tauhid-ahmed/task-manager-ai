@@ -1,13 +1,10 @@
 "use client";
 
 import {
-  type Task,
-  type SubTask,
-  type TaskStatus,
   type TaskManagerEvent,
   type TaskManagerState,
   NewTask,
-} from "@/types/task-manager.types";
+} from "@/features/task-manager/types/task-manager.types";
 import { useReducer } from "react";
 
 const initialState: TaskManagerState = {
@@ -35,9 +32,18 @@ function taskManagerReducer(
   action: TaskManagerEvent
 ): TaskManagerState {
   switch (action.type) {
+    // ✅ Add task action event
+    case "ADD_TASK_BUTTON_CLICKED": {
+      if (state.status !== "idle") return state;
+      return {
+        ...state,
+        status: "creating",
+      };
+    }
+
     // ✅ Create a new task
     case "ADD_TASK": {
-      if (state.status !== "readyToAddTask") return state;
+      if (state.status !== "creating") return state;
       const newTask = {
         id: crypto.randomUUID(),
         ...action.payload.newTask,
@@ -66,7 +72,6 @@ function taskManagerReducer(
       const { task: updatedTask } = action.payload;
 
       return {
-        ...state,
         status: "idle",
         tasks: state.tasks.map((task) =>
           task.id === state.editingTaskId ? { ...task, ...updatedTask } : task
@@ -90,7 +95,6 @@ function taskManagerReducer(
       if (state.status !== "deleting") return state;
 
       return {
-        ...state,
         status: "idle",
         tasks: [
           ...state.tasks.filter((task) => task.id !== state.deletingTaskId),
@@ -103,7 +107,6 @@ function taskManagerReducer(
       if (state.status !== "idle") return state;
       const { taskId } = action.payload;
       return {
-        ...state,
         status: "idle",
         tasks: state.tasks.map((task) =>
           task.id === taskId
@@ -122,6 +125,11 @@ function taskManagerReducer(
     // ✅ Readd subtask for an existing task
     case "REGENERATE_SUBTASKS":
 
+    // ✅ Close modal action
+    case "CLOSE_MODAL": {
+      return { status: "idle", tasks: state.tasks };
+    }
+
     default:
       return state;
   }
@@ -130,8 +138,37 @@ function taskManagerReducer(
 export const useTaskReducer = () => {
   const [state, dispatch] = useReducer(taskManagerReducer, initialState);
 
-  const addTask = (payload: { newTask: NewTask }) =>
+  const addTask = (payload: { newTask: NewTask }) => {
     dispatch({ type: "ADD_TASK", payload });
+  };
 
-  return { state, dispatch, addTask };
+  const changeStatus = (taskId: string) => {
+    dispatch({ type: "CHANGE_STATUS", payload: { taskId } });
+  };
+
+  const handleNewTaskButtonClick = () => {
+    dispatch({ type: "ADD_TASK_BUTTON_CLICKED" });
+  };
+
+  const handleEditTaskButtonClick = (taskId: string) => {
+    dispatch({ type: "EDIT_BUTTON_CLICKED", payload: { taskId } });
+  };
+  const handleDeleteTaskButtonClick = (taskId: string) => {
+    dispatch({ type: "DELETE_BUTTON_CLICKED", payload: { taskId } });
+  };
+
+  const handleCloseModal = () => {
+    dispatch({ type: "CLOSE_MODAL" });
+  };
+
+  return {
+    state,
+    dispatch,
+    addTask,
+    changeStatus,
+    handleNewTaskButtonClick,
+    handleEditTaskButtonClick,
+    handleDeleteTaskButtonClick,
+    handleCloseModal,
+  };
 };
