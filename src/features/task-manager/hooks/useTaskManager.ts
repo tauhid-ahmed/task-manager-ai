@@ -123,7 +123,7 @@ function taskManagerReducer(
         tasks: state.tasks.map((task) => {
           if (task.id !== taskId) return task;
 
-          const toggledStatus =
+          const toggledStatus: "pending" | "completed" =
             task.status === "pending" ? "completed" : "pending";
 
           return {
@@ -141,21 +141,32 @@ function taskManagerReducer(
     // ✅ Change subtask task status
     case "CHANGE_SUBTASK_STATUS": {
       if (state.status !== "idle") return state;
+
       return {
         status: "idle",
         tasks: state.tasks.map((task) => {
           if (task.id !== action.payload.taskId) return task;
+
+          // ✅ Step 1: Toggle the specific subTask
+          const updatedSubTasks =
+            task.subTasks?.map((subTask) => {
+              if (subTask.id !== action.payload.subTaskId) return subTask;
+
+              const toggledStatus: "pending" | "completed" =
+                subTask.status === "pending" ? "completed" : "pending";
+
+              return { ...subTask, status: toggledStatus };
+            }) ?? [];
+
+          // ✅ Step 2: Check if ALL subTasks are now completed
+          const allCompleted =
+            updatedSubTasks.length > 0 &&
+            updatedSubTasks.every((st) => st.status === "completed");
+
           return {
             ...task,
-            subTasks: task.subTasks?.map((subTask) => {
-              if (subTask.id !== action.payload.subTaskId) return subTask;
-              const toggledStatus =
-                subTask.status === "pending" ? "completed" : "pending";
-              return {
-                ...subTask,
-                status: toggledStatus,
-              };
-            }),
+            subTasks: updatedSubTasks,
+            status: allCompleted ? "completed" : "pending",
           };
         }),
       };
