@@ -4,7 +4,6 @@ import {
   type TaskManagerEvent,
   type TaskManagerState,
   type NewTask,
-  type Task,
 } from "@/features/task-manager/types/task-manager.types";
 import { useReducer } from "react";
 
@@ -13,10 +12,16 @@ const initialState: TaskManagerState = {
   tasks: [
     {
       id: crypto.randomUUID(),
-      title: "Task 1",
+      title: "Plan birthday party",
       description: "Task 1 description",
       status: "pending",
       dueDate: "2025-07-15",
+      subTasks: [
+        // { id: crypto.randomUUID(), title: "SubTask 1", status: "pending" },
+        // { id: crypto.randomUUID(), title: "SubTask 2", status: "pending" },
+        // { id: crypto.randomUUID(), title: "SubTask 3", status: "completed" },
+        // { id: crypto.randomUUID(), title: "SubTask 4", status: "pending" },
+      ],
     },
     {
       id: crypto.randomUUID(),
@@ -24,6 +29,12 @@ const initialState: TaskManagerState = {
       description: "Task 2 description",
       status: "completed",
       dueDate: "2025-07-15",
+      subTasks: [
+        { id: crypto.randomUUID(), title: "SubTask 10", status: "completed" },
+        { id: crypto.randomUUID(), title: "SubTask 11", status: "pending" },
+        { id: crypto.randomUUID(), title: "SubTask 12", status: "completed" },
+        { id: crypto.randomUUID(), title: "SubTask 13", status: "pending" },
+      ],
     },
   ],
 };
@@ -104,19 +115,49 @@ function taskManagerReducer(
     }
 
     // ✅ Change existing task status
-    case "CHANGE_STATUS": {
+    case "CHANGE_TASK_STATUS": {
       if (state.status !== "idle") return state;
       const { taskId } = action.payload;
       return {
         status: "idle",
-        tasks: state.tasks.map((task) =>
-          task.id === taskId
-            ? {
-                ...task,
-                status: task.status === "pending" ? "completed" : "pending",
-              }
-            : task
-        ),
+        tasks: state.tasks.map((task) => {
+          if (task.id !== taskId) return task;
+
+          const toggledStatus =
+            task.status === "pending" ? "completed" : "pending";
+
+          return {
+            ...task,
+            status: toggledStatus,
+            subTasks: task.subTasks?.map((subTask) => ({
+              ...subTask,
+              status: toggledStatus,
+            })),
+          };
+        }),
+      };
+    }
+
+    // ✅ Change subtask task status
+    case "CHANGE_SUBTASK_STATUS": {
+      if (state.status !== "idle") return state;
+      return {
+        status: "idle",
+        tasks: state.tasks.map((task) => {
+          if (task.id !== action.payload.taskId) return task;
+          return {
+            ...task,
+            subTasks: task.subTasks?.map((subTask) => {
+              if (subTask.id !== action.payload.subTaskId) return subTask;
+              const toggledStatus =
+                subTask.status === "pending" ? "completed" : "pending";
+              return {
+                ...subTask,
+                status: toggledStatus,
+              };
+            }),
+          };
+        }),
       };
     }
 
@@ -147,8 +188,12 @@ export const useTaskReducer = () => {
     dispatch({ type: "UPDATE_TASK", payload });
   };
 
-  const changeStatus = (taskId: string) => {
-    dispatch({ type: "CHANGE_STATUS", payload: { taskId } });
+  const changeTaskStatus = (taskId: string) => {
+    dispatch({ type: "CHANGE_TASK_STATUS", payload: { taskId } });
+  };
+
+  const changeSubTaskStatus = (taskId: string, subTaskId: string) => {
+    dispatch({ type: "CHANGE_SUBTASK_STATUS", payload: { taskId, subTaskId } });
   };
 
   const handleNewTaskButtonClick = () => {
@@ -171,7 +216,8 @@ export const useTaskReducer = () => {
     dispatch,
     addTask,
     editTask,
-    changeStatus,
+    changeTaskStatus,
+    changeSubTaskStatus,
     handleNewTaskButtonClick,
     handleEditTaskButtonClick,
     handleDeleteTaskButtonClick,

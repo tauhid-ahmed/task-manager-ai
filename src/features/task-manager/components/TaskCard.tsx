@@ -18,7 +18,7 @@ type TaskProps = { task: Task } & React.ComponentProps<"div">;
 
 export default function Task({ task }: TaskProps) {
   const {
-    changeStatus,
+    changeTaskStatus,
     handleEditTaskButtonClick,
     handleDeleteTaskButtonClick,
   } = useTaskManager();
@@ -29,7 +29,7 @@ export default function Task({ task }: TaskProps) {
         <div className="flex gap-2 cursor-pointer">
           <div
             onClick={() => {
-              changeStatus(task.id);
+              changeTaskStatus(task.id);
             }}
             className="flex gap-2 flex-1"
           >
@@ -66,7 +66,7 @@ export default function Task({ task }: TaskProps) {
         <div className="flex gap-4 items-baseline">
           <Badge
             onClick={() => {
-              changeStatus(task.id);
+              changeTaskStatus(task.id);
             }}
             className="capitalize cursor-pointer"
             variant={task.status === "pending" ? "outline" : "default"}
@@ -88,7 +88,9 @@ export default function Task({ task }: TaskProps) {
             </Button>
           </div>
         </div>
-        {task.subTasks && <SubTaskCard subTasks={task?.subTasks} />}
+        {task.subTasks && (
+          <SubTaskCard taskId={task.id} subTasks={task?.subTasks} />
+        )}
       </CardContent>
     </Card>
   );

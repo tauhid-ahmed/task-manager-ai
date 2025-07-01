@@ -46,7 +46,11 @@ export type TaskManagerEvent =
       type: "REGENERATE_SUBTASKS";
       payload: { taskId: string; subTasks: SubTask[] };
     }
-  | { type: "CHANGE_STATUS"; payload: { taskId: string } }
+  | { type: "CHANGE_TASK_STATUS"; payload: { taskId: string } }
+  | {
+      type: "CHANGE_SUBTASK_STATUS";
+      payload: { taskId: string; subTaskId: string };
+    }
   | {
       type: "CLOSE_MODAL";
     };
