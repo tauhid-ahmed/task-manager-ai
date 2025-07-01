@@ -83,11 +83,22 @@ function taskManagerReducer(
       if (state.status !== "editing") return state;
       const { updatedTask } = action.payload;
 
+      // Based on task change subtask status
+      const subTaskStatus =
+        updatedTask.status === "pending" ? "pending" : "completed";
+
       return {
         status: "idle",
-        tasks: state.tasks.map((task) =>
-          task.id === state.editingTaskId ? { ...task, ...updatedTask } : task
-        ),
+        tasks: state.tasks.map((task) => {
+          if (task.id !== state.editingTaskId) return task;
+          return {
+            ...task,
+            subTasks: task.subTasks?.map((subtask) => ({
+              ...subtask,
+              status: subTaskStatus,
+            })),
+          };
+        }),
       };
     }
 
