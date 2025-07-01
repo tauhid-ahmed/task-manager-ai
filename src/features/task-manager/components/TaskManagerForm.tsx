@@ -34,7 +34,6 @@ export default function TaskManagerForm() {
 
   const handleChange = (e: React.ChangeEvent<"input">) => {};
 
-  if (!editingMode && !creatingMode) return null;
   return (
     <div className="space-y-6">
       <FormHeader editingMode={true} />
