@@ -93,6 +93,7 @@ function taskManagerReducer(
           if (task.id !== state.editingTaskId) return task;
           return {
             ...task,
+            ...updatedTask,
             subTasks: task.subTasks?.map((subtask) => ({
               ...subtask,
               status: subTaskStatus,
