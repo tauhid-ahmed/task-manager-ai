@@ -18,6 +18,8 @@ export interface Task {
   subTasks?: SubTask[];
 }
 
+export type NewTask = Omit<Task, "id" | "subTasks">;
+
 export type Tasks = Task[];
 
 // ✅ State shape
@@ -30,9 +32,11 @@ export type TaskManagerState =
 
 // ✅ Events
 export type TaskManagerEvent =
-  | { type: "ADD_TASK"; payload: { newTask: Task } }
-  | { type: "DELETE_TASK"; payload: { taskId: string } }
-  | { type: "EDIT_TASK"; payload: { taskId: string } }
+  | { type: "ADD_TASK"; payload: { newTask: NewTask } }
+  | { type: "DELETE_BUTTON_CLICKED"; payload: { taskId: string } }
+  | { type: "DELETE_TASK" }
+  | { type: "EDIT_BUTTON_CLICKED"; payload: { taskId: string } }
+  | { type: "UPDATE_TASK"; payload: { task: Task } }
   | {
       type: "GENERATE_SUBTASKS";
       payload: { taskId: string; subTasks: SubTask[] };
