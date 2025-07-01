@@ -17,7 +17,7 @@ type Props = {
 };
 
 export default function TaskManagerForm() {
-  const { state } = useTaskManager();
+  const { state, addTask, editTask } = useTaskManager();
   const editingMode = state.status === "editing";
   const creatingMode = state.status === "creating";
 
@@ -32,27 +32,47 @@ export default function TaskManagerForm() {
     status: initialData?.status ?? "pending",
   });
 
-  const handleChange = (e: React.ChangeEvent<"input">) => {};
+  const handleInputChange =
+    (name: string) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      e.preventDefault();
+      const value = e.target.value;
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
+    };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const newTask = {
+      title: formData.title,
+      description: formData.description,
+      status: formData.status,
+      dueDate: formData.dueDate,
+    };
+
+    if (editingMode) return editTask({ updatedTask: newTask });
+    if (creatingMode) return addTask({ newTask });
+  };
 
   return (
     <div className="space-y-6">
-      <FormHeader editingMode={true} />
-      <form className="space-y-6">
-        <FormBody formData={formData} handleChange={handleChange} />
-        <FormFooter editingMode={true} />
+      <FormHeader editingMode={editingMode} />
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <FormBody formData={formData} handleInputChange={handleInputChange} />
+        <FormFooter editingMode={editingMode} />
       </form>
     </div>
   );
 }
 
-function FormBody({ formData, handleChange }: any) {
+function FormBody({ formData, handleInputChange }: any) {
   return (
     <div className="space-y-5">
       <InputContainer>
         <Label>Title</Label>
         <Input
           value={formData.title}
-          onChange={handleChange}
+          onChange={handleInputChange("title")}
           placeholder="Enter task title"
         />
       </InputContainer>
@@ -60,7 +80,7 @@ function FormBody({ formData, handleChange }: any) {
         <Label>Description</Label>
         <Textarea
           value={formData.description}
-          onChange={handleChange}
+          onChange={handleInputChange("description")}
           className="min-h-24"
           placeholder="Enter task description"
         />
@@ -68,10 +88,7 @@ function FormBody({ formData, handleChange }: any) {
       <div className="flex gap-4 [&>*]:flex-1">
         <InputContainer>
           <Label>Status</Label>
-          <Select
-            value={formData.status}
-            onValueChange={(value) => handleChange(value)}
-          >
+          <Select value={formData.status}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
@@ -83,7 +100,11 @@ function FormBody({ formData, handleChange }: any) {
         </InputContainer>
         <InputContainer>
           <Label>Due Date</Label>
-          <Input value={formData.dueDate} onChange={handleChange} type="date" />
+          <Input
+            value={formData.dueDate}
+            onChange={handleInputChange("dueDate")}
+            type="date"
+          />
         </InputContainer>
       </div>
     </div>

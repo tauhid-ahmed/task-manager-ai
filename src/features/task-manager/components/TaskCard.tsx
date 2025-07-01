@@ -68,9 +68,10 @@ export default function Task({ task }: TaskProps) {
           >
             {task.status}
           </Badge>
-          <span>
+          <Badge variant="outline" className="flex items-center gap-1">
             <LucideCalendar size={16} />
-          </span>
+            {task.dueDate}
+          </Badge>
         </div>
       </CardContent>
     </Card>
