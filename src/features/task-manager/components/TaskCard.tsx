@@ -60,7 +60,10 @@ export default function Task({ task }: TaskProps) {
         </div>
         <div className="flex gap-4 items-center mt-8">
           <Badge
-            className="capitalize"
+            onClick={() => {
+              changeStatus(task.id);
+            }}
+            className="capitalize cursor-pointer"
             variant={task.status === "pending" ? "outline" : "default"}
           >
             {task.status}
