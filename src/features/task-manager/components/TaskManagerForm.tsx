@@ -16,6 +16,21 @@ type Props = {
   editingMode: boolean;
 };
 
+type FormData = {
+  title: string;
+  description: string;
+  status: "pending" | "completed";
+  dueDate: string;
+};
+
+type FormBodyProps = {
+  formData: FormData;
+  handleInputChange: (
+    name: string
+  ) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  handleSelectChange: (value: "pending" | "completed") => void;
+};
+
 export default function TaskManagerForm() {
   const { state, addTask, editTask } = useTaskManager();
   const editingMode = state.status === "editing";
@@ -40,6 +55,9 @@ export default function TaskManagerForm() {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
+  const handleSelectChange = (value: "pending" | "completed") =>
+    setFormData((prevData) => ({ ...prevData, status: value }));
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -50,6 +68,7 @@ export default function TaskManagerForm() {
       dueDate: formData.dueDate,
     };
 
+    // it changes state to show form modal
     if (editingMode) return editTask({ updatedTask: newTask });
     if (creatingMode) return addTask({ newTask });
   };
@@ -58,14 +77,22 @@ export default function TaskManagerForm() {
     <div className="space-y-6">
       <FormHeader editingMode={editingMode} />
       <form onSubmit={handleSubmit} className="space-y-6">
-        <FormBody formData={formData} handleInputChange={handleInputChange} />
+        <FormBody
+          formData={formData}
+          handleInputChange={handleInputChange}
+          handleSelectChange={handleSelectChange}
+        />
         <FormFooter editingMode={editingMode} />
       </form>
     </div>
   );
 }
 
-function FormBody({ formData, handleInputChange }: any) {
+function FormBody({
+  formData,
+  handleInputChange,
+  handleSelectChange,
+}: FormBodyProps) {
   return (
     <div className="space-y-5">
       <InputContainer>
@@ -88,7 +115,7 @@ function FormBody({ formData, handleInputChange }: any) {
       <div className="flex gap-4 [&>*]:flex-1">
         <InputContainer>
           <Label>Status</Label>
-          <Select value={formData.status}>
+          <Select value={formData.status} onValueChange={handleSelectChange}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
