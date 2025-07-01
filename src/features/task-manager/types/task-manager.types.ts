@@ -25,18 +25,19 @@ export type Tasks = Task[];
 // ✅ State shape
 export type TaskManagerState =
   | { status: "idle"; tasks: Tasks }
+  | { status: "creating"; tasks: Tasks }
   | { status: "editing"; tasks: Tasks; editingTaskId: string }
   | { status: "deleting"; tasks: Tasks; deletingTaskId: string }
-  | { status: "readyToAddTask"; tasks: Tasks }
   | { status: "generateSubTask"; tasks: Tasks; targetTaskId: string };
 
 // ✅ Events
 export type TaskManagerEvent =
+  | { type: "ADD_TASK_BUTTON_CLICKED" }
   | { type: "ADD_TASK"; payload: { newTask: NewTask } }
   | { type: "DELETE_BUTTON_CLICKED"; payload: { taskId: string } }
   | { type: "DELETE_TASK" }
   | { type: "EDIT_BUTTON_CLICKED"; payload: { taskId: string } }
-  | { type: "UPDATE_TASK"; payload: { task: Task } }
+  | { type: "UPDATE_TASK"; payload: { updatedTask: NewTask } }
   | {
       type: "GENERATE_SUBTASKS";
       payload: { taskId: string; subTasks: SubTask[] };
@@ -45,4 +46,11 @@ export type TaskManagerEvent =
       type: "REGENERATE_SUBTASKS";
       payload: { taskId: string; subTasks: SubTask[] };
     }
-  | { type: "CHANGE_STATUS"; payload: { taskId: string } };
+  | { type: "CHANGE_TASK_STATUS"; payload: { taskId: string } }
+  | {
+      type: "CHANGE_SUBTASK_STATUS";
+      payload: { taskId: string; subTaskId: string };
+    }
+  | {
+      type: "CLOSE_MODAL";
+    };
