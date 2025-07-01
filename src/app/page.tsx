@@ -1,6 +1,7 @@
 import {
-  Modal,
+  FormModal,
   NewTaskButton,
+  TaskDeleteModal,
   TaskList,
 } from "@/features/task-manager/components";
 import TaskManagerProvider from "@/features/task-manager/provider";
@@ -22,7 +23,8 @@ export default function Home() {
           <TaskList />
         </div>
       </div>
-      <Modal />
+      <FormModal />
+      <TaskDeleteModal />
     </TaskManagerProvider>
   );
 }
