@@ -161,7 +161,7 @@ function taskManagerReducer(
           // ✅ Step 2: Check if ALL subTasks are now completed
           const allCompleted =
             updatedSubTasks.length > 0 &&
-            updatedSubTasks.every((st) => st.status === "completed");
+            updatedSubTasks.every((subTask) => subTask.status === "completed");
 
           return {
             ...task,
