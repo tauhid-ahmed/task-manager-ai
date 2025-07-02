@@ -18,7 +18,7 @@ export interface Task {
   subTasks: SubTask[] | [];
 }
 
-export type NewTask = Omit<Task, "id">;
+export type NewTask = Omit<Task, "id" | "subTasks">;
 
 export type Tasks = Task[];
 

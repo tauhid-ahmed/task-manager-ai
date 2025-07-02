@@ -188,9 +188,6 @@ function taskManagerReducer(
     // ✅ Add subtask for an existing task
     case "GENERATE_SUBTASKS":
 
-    // ✅ Readd subtask for an existing task
-    case "REGENERATE_SUBTASKS":
-
     // ✅ Close modal action
     case "CLOSE_MODAL": {
       return { status: "idle", tasks: state.tasks };
