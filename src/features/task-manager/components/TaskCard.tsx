@@ -30,7 +30,7 @@ export default function Task({ task }: TaskProps) {
   return (
     <Card>
       <CardContent className="space-y-4">
-        <div className="flex gap-2 cursor-pointer">
+        <div className="flex gap-2">
           <div className="flex gap-2 flex-1">
             <Button
               onClick={() => {
@@ -72,11 +72,11 @@ export default function Task({ task }: TaskProps) {
           <div className="flex gap-4 items-baseline mr-auto">
             <Badge
               className="capitalize"
-              variant={task.status === "pending" ? "outline" : "default"}
+              variant={task.status === "pending" ? "outline" : "secondary"}
             >
               {task.status}
             </Badge>
-            <Badge variant="outline" className="flex items-baseline gap-1">
+            <Badge variant="secondary" className="flex items-baseline gap-1">
               <LucideCalendar className="translate-y-px" size={16} />
               {task.dueDate}
             </Badge>
