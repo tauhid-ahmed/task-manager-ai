@@ -3,7 +3,6 @@ import {
   LucideCircle,
   LucideCircleCheck,
   LucideEdit,
-  LucideSparkles,
   LucideTrash,
 } from "lucide-react";
 import { type Task } from "../types/task-manager.types";
@@ -69,29 +68,28 @@ export default function Task({ task }: TaskProps) {
           </div>
         </div>
         <TaskProgress subTasks={task?.subTasks} />
-        <div className="flex gap-4 items-baseline">
-          <Badge
-            className="capitalize"
-            variant={task.status === "pending" ? "outline" : "default"}
-          >
-            {task.status}
-          </Badge>
-          <Badge variant="outline" className="flex items-baseline gap-1">
-            <LucideCalendar className="translate-y-px" size={16} />
-            {task.dueDate}
-          </Badge>
-          {hasSubTasks ? (
-            <SubtaskVisibilityButton
-              show={showSubTasks}
-              setShow={() => setShowSubTasks((prev) => !prev)}
-            />
-          ) : (
-            <AiIntegrationButton
-              text="Suggest Subtasks"
-              taskId={task.id}
-              className="ml-auto"
-            />
-          )}
+        <div className="flex items-baseline gap-4 flex-wrap">
+          <div className="flex gap-4 items-baseline mr-auto">
+            <Badge
+              className="capitalize"
+              variant={task.status === "pending" ? "outline" : "default"}
+            >
+              {task.status}
+            </Badge>
+            <Badge variant="outline" className="flex items-baseline gap-1">
+              <LucideCalendar className="translate-y-px" size={16} />
+              {task.dueDate}
+            </Badge>
+          </div>
+          <div className="flex gap-2 items-center">
+            {hasSubTasks && (
+              <SubtaskVisibilityButton
+                show={showSubTasks}
+                setShow={() => setShowSubTasks((prev) => !prev)}
+              />
+            )}
+            <AiIntegrationButton text="Suggest Subtasks" taskId={task.id} />
+          </div>
         </div>
         {hasSubTasks && showSubTasks && (
           <SubTaskCard taskId={task.id} subTasks={task.subTasks} />
@@ -109,13 +107,7 @@ function SubtaskVisibilityButton({
   setShow: () => void;
 }) {
   return (
-    <Button
-      onClick={setShow}
-      variant="outline"
-      className="ml-auto text-violet-500 hover:text-violet-600 hover:bg-violet-50 hover:border-violet-200"
-      size="sm"
-    >
-      <LucideSparkles />
+    <Button onClick={setShow} variant="outline" size="sm">
       {show ? "Hide" : "Show"} Subtask
     </Button>
   );
