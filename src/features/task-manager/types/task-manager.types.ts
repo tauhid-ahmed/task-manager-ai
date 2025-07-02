@@ -15,10 +15,10 @@ export interface Task {
   description: string;
   dueDate: string;
   status: TaskStatus;
-  subTasks?: SubTask[];
+  subTasks: SubTask[] | [];
 }
 
-export type NewTask = Omit<Task, "id" | "subTasks">;
+export type NewTask = Omit<Task, "id">;
 
 export type Tasks = Task[];
 
@@ -40,10 +40,6 @@ export type TaskManagerEvent =
   | { type: "UPDATE_TASK"; payload: { updatedTask: NewTask } }
   | {
       type: "GENERATE_SUBTASKS";
-      payload: { taskId: string; subTasks: SubTask[] };
-    }
-  | {
-      type: "REGENERATE_SUBTASKS";
       payload: { taskId: string; subTasks: SubTask[] };
     }
   | { type: "CHANGE_TASK_STATUS"; payload: { taskId: string } }

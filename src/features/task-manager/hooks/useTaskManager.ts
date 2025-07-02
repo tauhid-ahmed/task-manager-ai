@@ -59,6 +59,7 @@ function taskManagerReducer(
       const newTask = {
         id: crypto.randomUUID(),
         ...action.payload.newTask,
+        subTasks: [],
       };
       return {
         ...state,
@@ -94,7 +95,7 @@ function taskManagerReducer(
           return {
             ...task,
             ...updatedTask,
-            subTasks: task.subTasks?.map((subtask) => ({
+            subTasks: task.subTasks.map((subtask) => ({
               ...subtask,
               status: subTaskStatus,
             })),
