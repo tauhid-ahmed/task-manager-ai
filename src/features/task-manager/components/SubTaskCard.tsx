@@ -22,7 +22,7 @@ export default function SubTaskCard({ subTasks, taskId }: Props) {
         <h3 className="flex items-center text-violet-500 font-semibold gap-2">
           <LucideSparkles /> AI Suggested Subtasks
         </h3>
-        <AiIntegrationButton text="Regenerate Subtasks" />
+        <AiIntegrationButton taskId={taskId} text="Regenerate Subtasks" />
       </div>
       <ul className="space-y-1">
         {subTasks.map((subTask) => (

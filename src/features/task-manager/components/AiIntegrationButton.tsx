@@ -1,14 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { LucideSparkles } from "lucide-react";
+import { env } from "@/env";
 
 type AiIntegrationButtonProps = {
   text: string;
+  taskId: string;
 } & React.ComponentProps<"button">;
 
 export default function AiIntegrationButton({
   className,
   text,
+  taskId,
 }: AiIntegrationButtonProps) {
   return (
     <Button

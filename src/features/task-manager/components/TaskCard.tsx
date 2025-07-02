@@ -86,7 +86,11 @@ export default function Task({ task }: TaskProps) {
               setShow={() => setShowSubTasks((prev) => !prev)}
             />
           ) : (
-            <AiIntegrationButton text="Suggest Subtasks" className="ml-auto" />
+            <AiIntegrationButton
+              text="Suggest Subtasks"
+              taskId={task.id}
+              className="ml-auto"
+            />
           )}
         </div>
         {hasSubTasks && showSubTasks && (
