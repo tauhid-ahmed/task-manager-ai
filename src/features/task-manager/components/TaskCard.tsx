@@ -32,19 +32,20 @@ export default function Task({ task }: TaskProps) {
     <Card>
       <CardContent className="space-y-4">
         <div className="flex gap-2 cursor-pointer">
-          <div
-            onClick={() => {
-              changeTaskStatus(task.id);
-            }}
-            className="flex gap-2 flex-1"
-          >
-            <div className="mt-1.5">
+          <div className="flex gap-2 flex-1">
+            <Button
+              onClick={() => {
+                changeTaskStatus(task.id);
+              }}
+              size="icon"
+              variant="ghost"
+            >
               {task.status === "pending" ? (
                 <LucideCircle className="text-secondary-foreground" />
               ) : (
                 <LucideCircleCheck className="text-emerald-500" />
               )}
-            </div>
+            </Button>
             <div className="flex-1">
               <CardTitle className="text-lg">{task.title}</CardTitle>
               <p>{task.description}</p>
@@ -70,10 +71,7 @@ export default function Task({ task }: TaskProps) {
         <TaskProgress subTasks={task?.subTasks} />
         <div className="flex gap-4 items-baseline">
           <Badge
-            onClick={() => {
-              changeTaskStatus(task.id);
-            }}
-            className="capitalize cursor-pointer"
+            className="capitalize"
             variant={task.status === "pending" ? "outline" : "default"}
           >
             {task.status}
