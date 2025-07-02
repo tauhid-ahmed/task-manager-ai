@@ -86,6 +86,7 @@ export default function Task({ task }: TaskProps) {
               <SubtaskVisibilityButton
                 show={showSubTasks}
                 setShow={() => setShowSubTasks((prev) => !prev)}
+                subTaskLength={task.subTasks.length}
               />
             )}
             <AiIntegrationButton
@@ -105,9 +106,11 @@ export default function Task({ task }: TaskProps) {
 function SubtaskVisibilityButton({
   show,
   setShow,
+  subTaskLength,
 }: {
   show: boolean;
   setShow: () => void;
+  subTaskLength: number;
 }) {
   return (
     <Button
@@ -116,7 +119,7 @@ function SubtaskVisibilityButton({
       variant="outline"
       size="sm"
     >
-      {show ? "Hide" : "Show"} Subtask
+      {show ? "Hide" : "Show"} Subtask {subTaskLength}
     </Button>
   );
 }
