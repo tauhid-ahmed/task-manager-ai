@@ -1,36 +1,149 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 Task Manager with Gemini AI Integration
 
-## Getting Started
+A focused and minimal Task Management system built with **Next.js 15 App Router**, powered by **TypeScript** and styled with **Tailwind CSS + shadcn/ui**. Includes Gemini AI integration to generate actionable subtasks.
 
-First, run the development server:
+---
+
+## ✨ Features
+
+- ✅ Add / Edit / Delete tasks
+- ✅ Toggle task status (pending / completed)
+- ✅ Due date and description support
+- ✅ Generate 3–5 subtasks using **Gemini AI**
+- ✅ Subtask status sync with parent task
+- ✅ Clean reducer structure using **FSM pattern**
+
+---
+
+## 📦 Tech Stack
+
+- **Next.js 15 (App Router)**
+- **TypeScript**
+- **Tailwind CSS v4**
+- **shadcn/ui**
+- **React Context + Reducer (FSM style)**
+- **Google Gemini AI (API integration)**
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Clone the Repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/tauhid-ahmed/task-manager-ai.git
+cd task-manager-ai
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+# or
+npm install
+# or
+yarn install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Configure Environment Variables
 
-## Learn More
+Create a `.env.local` file using the provided `.env.example`:
 
-To learn more about Next.js, take a look at the following resources:
+```env
+# .env.local
+GEMINI_API_KEY=your-real-google-api-key
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4. Run the Development Server
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm dev
+```
 
-## Deploy on Vercel
+Visit: [http://localhost:3000](http://localhost:3000)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🚀 AI Integration: How It Works
+
+- Each task has a **“Suggest Subtasks”** button
+- On click, Gemini AI is called with the task title
+- AI returns 3–5 smaller subtasks (e.g. for “Plan birthday party”)
+- Subtasks are shown below the main task
+- If Gemini API fails, user is shown a graceful fallback
+
+---
+
+## 💡 FSM-based State Management
+
+This project uses a **Finite State Machine (FSM)**-inspired reducer structure to manage UI states. States include:
+
+- `idle`
+- `editing`
+- `deleting`
+- `readyToAddTask`
+- `generateSubTask`
+
+Each state has its own clearly defined behavior, making the logic easier to follow and debug.
+
+> 💬 _Even though I’m still learning FSM patterns, implementing this approach helped me better understand predictable state modeling in real-world React apps._
+
+---
+
+## 🧪 Example `.env.example`
+
+```env
+# .env.example
+
+# Required to access Google Gemini AI
+GEMINI_API_KEY=your-google-api-key-here
+```
+
+---
+
+## 🧠 Challenges Faced
+
+- Modeling multiple UI states cleanly with reducer logic
+- Learning and applying FSM principles while building
+- Handling API communication without backend/database
+- Keeping components clean and stateless where possible
+
+---
+
+## 🧪 Additional Notes
+
+This project was a great learning experience. I focused on:
+
+- Building clean and minimal task logic
+- Exploring FSM-based reducer design
+- Integrating Gemini AI for practical feature extension
+- Writing readable and maintainable code from the start
+
+---
+
+## 📮 Submission Details
+
+- ✅ Public GitHub repo with `.env.example`
+- ✅ Clear commit history
+- ✅ This `README.md` with all setup + explanation
+- ✅ Email to: **tanvir@passlimits.com**
+
+---
+
+## 🙏 Final Note
+
+This project was intentionally kept **focused and functional**. Instead of overloading features or using a database, I chose to:
+
+- Build from scratch using **only frontend state**
+- Ensure smooth task/subtask logic
+- Apply **real-world state patterns** while still learning
+
+Thank you for reviewing!
+
+---
+
+## 📫 Contact
+
+**Tauhid Ahmed**  
+🔗 [Portfolio](https://tauhidahmed.vercel.app)  
+📧 tauhidahmed.dev@gmail.com
