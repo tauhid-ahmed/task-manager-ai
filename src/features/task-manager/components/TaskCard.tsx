@@ -13,15 +13,20 @@ import { useTaskManager } from "../provider";
 import { Badge } from "@/components/ui/badge";
 import SubTaskCard from "./SubTaskCard";
 import TaskProgress from "./TaskProgress";
+import AiIntegrationButton from "./AiIntegrationButton";
+import { useState } from "react";
 
 type TaskProps = { task: Task } & React.ComponentProps<"div">;
 
 export default function Task({ task }: TaskProps) {
+  const [showSubTasks, setShowSubTasks] = useState(false);
   const {
     changeTaskStatus,
     handleEditTaskButtonClick,
     handleDeleteTaskButtonClick,
   } = useTaskManager();
+
+  const hasSubTasks = task.subTasks.length > 0;
 
   return (
     <Card>
@@ -77,21 +82,39 @@ export default function Task({ task }: TaskProps) {
             <LucideCalendar className="translate-y-px" size={16} />
             {task.dueDate}
           </Badge>
-          <div className="ml-auto">
-            <Button
-              className="text-violet-500 hover:text-violet-600 hover:bg-violet-50 hover:border-violet-200"
-              variant="outline"
-              size="sm"
-            >
-              <LucideSparkles />
-              Suggest subtasks
-            </Button>
-          </div>
+          {hasSubTasks ? (
+            <SubtaskVisibilityButton
+              show={showSubTasks}
+              setShow={() => setShowSubTasks((prev) => !prev)}
+            />
+          ) : (
+            <AiIntegrationButton text="Suggest Subtasks" className="ml-auto" />
+          )}
         </div>
-        {task.subTasks && (
-          <SubTaskCard taskId={task.id} subTasks={task?.subTasks} />
+        {hasSubTasks && showSubTasks && (
+          <SubTaskCard taskId={task.id} subTasks={task.subTasks} />
         )}
       </CardContent>
     </Card>
+  );
+}
+
+function SubtaskVisibilityButton({
+  show,
+  setShow,
+}: {
+  show: boolean;
+  setShow: () => void;
+}) {
+  return (
+    <Button
+      onClick={setShow}
+      variant="outline"
+      className="ml-auto text-violet-500 hover:text-violet-600 hover:bg-violet-50 hover:border-violet-200"
+      size="sm"
+    >
+      <LucideSparkles />
+      {show ? "Hide" : "Show"} Subtask
+    </Button>
   );
 }

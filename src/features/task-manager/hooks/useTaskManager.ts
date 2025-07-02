@@ -59,6 +59,7 @@ function taskManagerReducer(
       const newTask = {
         id: crypto.randomUUID(),
         ...action.payload.newTask,
+        subTasks: [],
       };
       return {
         ...state,
@@ -94,7 +95,7 @@ function taskManagerReducer(
           return {
             ...task,
             ...updatedTask,
-            subTasks: task.subTasks?.map((subtask) => ({
+            subTasks: task.subTasks.map((subtask) => ({
               ...subtask,
               status: subTaskStatus,
             })),
@@ -186,9 +187,6 @@ function taskManagerReducer(
 
     // ✅ Add subtask for an existing task
     case "GENERATE_SUBTASKS":
-
-    // ✅ Readd subtask for an existing task
-    case "REGENERATE_SUBTASKS":
 
     // ✅ Close modal action
     case "CLOSE_MODAL": {

@@ -37,7 +37,7 @@ Format your response as a simple numbered list, one subtask per line.`,
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
-  } catch (error) {
+  } catch {
     return new Response(
       JSON.stringify({ error: "Failed to generate subtasks", subtasks: [] }),
       { status: 500, headers: { "Content-Type": "application/json" } }

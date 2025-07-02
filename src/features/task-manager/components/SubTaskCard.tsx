@@ -7,20 +7,23 @@ import { type SubTask } from "../types/task-manager.types";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTaskManager } from "../provider";
+import AiIntegrationButton from "./AiIntegrationButton";
 
 type Props = {
-  subTasks?: SubTask[];
+  subTasks: SubTask[];
   taskId: string;
 } & React.ComponentProps<"div">;
 
 export default function SubTaskCard({ subTasks, taskId }: Props) {
   const { changeSubTaskStatus } = useTaskManager();
-  if (!subTasks || subTasks.length <= 0) return null;
   return (
     <div className="bg-violet-50/70 p-4 mt-10 border border-violet-200/50 rounded space-y-4">
-      <h3 className="flex items-center text-violet-500 font-semibold gap-2">
-        <LucideSparkles /> AI Suggested Subtasks
-      </h3>
+      <div className="flex justify-between">
+        <h3 className="flex items-center text-violet-500 font-semibold gap-2">
+          <LucideSparkles /> AI Suggested Subtasks
+        </h3>
+        <AiIntegrationButton text="Regenerate Subtasks" />
+      </div>
       <ul className="space-y-1">
         {subTasks.map((subTask) => (
           <li className={cn("flex items-center text-sm")} key={subTask.id}>
