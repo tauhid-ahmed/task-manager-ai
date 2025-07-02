@@ -10,7 +10,9 @@ export default function TaskList() {
       {state.tasks.length < 1 ? (
         <EmptyTaskList />
       ) : (
-        state.tasks.map((task) => <Task key={task.id} task={task} />)
+        [...state.tasks]
+          .reverse()
+          .map((task) => <Task key={task.id} task={task} />)
       )}
     </div>
   );
