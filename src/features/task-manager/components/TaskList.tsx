@@ -10,9 +10,24 @@ export default function TaskList() {
       {state.tasks.length < 1 ? (
         <EmptyTaskList />
       ) : (
-        [...state.tasks]
-          .reverse()
-          .map((task) => <Task key={task.id} task={task} />)
+        <div className="space-y-2">
+          <div className="flex gap-4 justify-end text-foreground/70 pr-4">
+            <span className="text-emerald-500">
+              <span className="font-medium">Completed</span> &nbsp;
+              {
+                state.tasks.filter((state) => state.status === "completed")
+                  .length
+              }
+            </span>
+            <span>
+              <span className="font-medium">Pending</span> &nbsp;
+              {state.tasks.filter((state) => state.status === "pending").length}
+            </span>
+          </div>
+          {[...state.tasks].reverse().map((task) => (
+            <Task key={task.id} task={task} />
+          ))}
+        </div>
       )}
     </div>
   );
