@@ -4,6 +4,8 @@ A focused and minimal Task Management system built with **Next.js 15 App Router*
 
 ---
 
+Visit: [Live Link](https://task-manager-gemini.vercel.app/)
+
 ## ✨ Features
 
 - ✅ Add / Edit / Delete tasks
