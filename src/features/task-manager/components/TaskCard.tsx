@@ -119,7 +119,7 @@ function SubtaskVisibilityButton({
       variant="outline"
       size="sm"
     >
-      {show ? "Hide" : "Show"} Subtask {subTaskLength}
+      {show ? "Hide" : "Show"} Subtasks <strong>{subTaskLength}</strong>
     </Button>
   );
 }
