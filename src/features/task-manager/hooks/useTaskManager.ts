@@ -4,6 +4,7 @@ import {
   type TaskManagerEvent,
   type TaskManagerState,
   type NewTask,
+  type SubTask,
 } from "@/features/task-manager/types/task-manager.types";
 import { useReducer } from "react";
 
@@ -12,21 +13,8 @@ const initialState: TaskManagerState = {
   tasks: [
     {
       id: crypto.randomUUID(),
-      title: "Plan birthday party",
-      description: "Task 1 description",
-      status: "pending",
-      dueDate: "2025-07-15",
-      subTasks: [
-        { id: crypto.randomUUID(), title: "SubTask 1", status: "pending" },
-        { id: crypto.randomUUID(), title: "SubTask 2", status: "pending" },
-        { id: crypto.randomUUID(), title: "SubTask 3", status: "completed" },
-        { id: crypto.randomUUID(), title: "SubTask 4", status: "pending" },
-      ],
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Task 2",
-      description: "Task 2 description",
+      title: "Prepare for job interview",
+      description: "Technical interview for React developer position",
       status: "pending",
       dueDate: "2025-07-15",
       subTasks: [
@@ -34,6 +22,20 @@ const initialState: TaskManagerState = {
         { id: crypto.randomUUID(), title: "SubTask 11", status: "pending" },
         { id: crypto.randomUUID(), title: "SubTask 12", status: "completed" },
         { id: crypto.randomUUID(), title: "SubTask 13", status: "pending" },
+      ],
+    },
+    {
+      id: crypto.randomUUID(),
+      title: "Plan birthday party",
+      description:
+        "Handle all arrangements for the birthday — venue, guests, food, and fun.",
+      status: "pending",
+      dueDate: "2025-07-15",
+      subTasks: [
+        { id: crypto.randomUUID(), title: "SubTask 1", status: "pending" },
+        { id: crypto.randomUUID(), title: "SubTask 2", status: "pending" },
+        { id: crypto.randomUUID(), title: "SubTask 3", status: "completed" },
+        { id: crypto.randomUUID(), title: "SubTask 4", status: "pending" },
       ],
     },
   ],
@@ -186,7 +188,22 @@ function taskManagerReducer(
     }
 
     // ✅ Add subtask for an existing task
-    case "GENERATE_SUBTASKS":
+    case "GENERATE_SUBTASKS": {
+      if (state.status !== "idle") return state;
+      const { taskId } = action.payload;
+      return {
+        ...state,
+        status: "idle",
+        tasks: state.tasks.map((task) => {
+          if (task.id !== taskId) return task;
+          return {
+            ...task,
+            status: "pending",
+            subTasks: action.payload.subTasks,
+          };
+        }),
+      };
+    }
 
     // ✅ Close modal action
     case "CLOSE_MODAL": {
@@ -217,6 +234,13 @@ export const useTaskReducer = () => {
     dispatch({ type: "CHANGE_SUBTASK_STATUS", payload: { taskId, subTaskId } });
   };
 
+  const generateSubtasks = (taskId: string, subTasks: SubTask[]) => {
+    dispatch({
+      type: "GENERATE_SUBTASKS",
+      payload: { taskId: taskId, subTasks },
+    });
+  };
+
   const handleNewTaskButtonClick = () => {
     dispatch({ type: "ADD_TASK_BUTTON_CLICKED" });
   };
@@ -224,6 +248,7 @@ export const useTaskReducer = () => {
   const handleEditTaskButtonClick = (taskId: string) => {
     dispatch({ type: "EDIT_BUTTON_CLICKED", payload: { taskId } });
   };
+
   const handleDeleteTaskButtonClick = (taskId: string) => {
     dispatch({ type: "DELETE_BUTTON_CLICKED", payload: { taskId } });
   };
@@ -239,6 +264,7 @@ export const useTaskReducer = () => {
     editTask,
     changeTaskStatus,
     changeSubTaskStatus,
+    generateSubtasks,
     handleNewTaskButtonClick,
     handleEditTaskButtonClick,
     handleDeleteTaskButtonClick,

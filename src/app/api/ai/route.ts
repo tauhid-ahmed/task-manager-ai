@@ -31,7 +31,8 @@ Format your response as a simple numbered list, one subtask per line.`,
       .map((line) => line.trim())
       .filter((line) => line.length > 0)
       .map((line) => line.replace(/^\d+\.\s*/, "")) // Remove numbering
-      .filter((task) => task.length > 0);
+      .filter((task) => task.length > 0)
+      .slice(0, 5);
 
     return new Response(JSON.stringify({ subtasks }), {
       status: 200,

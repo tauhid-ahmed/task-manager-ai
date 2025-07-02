@@ -3,7 +3,6 @@ import {
   LucideCircle,
   LucideCircleCheck,
   LucideEdit,
-  LucideSparkles,
   LucideTrash,
 } from "lucide-react";
 import { type Task } from "../types/task-manager.types";
@@ -31,20 +30,21 @@ export default function Task({ task }: TaskProps) {
   return (
     <Card>
       <CardContent className="space-y-4">
-        <div className="flex gap-2 cursor-pointer">
-          <div
-            onClick={() => {
-              changeTaskStatus(task.id);
-            }}
-            className="flex gap-2 flex-1"
-          >
-            <div className="mt-1.5">
+        <div className="flex gap-2">
+          <div className="flex gap-2 flex-1">
+            <Button
+              onClick={() => {
+                changeTaskStatus(task.id);
+              }}
+              size="icon"
+              variant="ghost"
+            >
               {task.status === "pending" ? (
                 <LucideCircle className="text-secondary-foreground" />
               ) : (
                 <LucideCircleCheck className="text-emerald-500" />
               )}
-            </div>
+            </Button>
             <div className="flex-1">
               <CardTitle className="text-lg">{task.title}</CardTitle>
               <p>{task.description}</p>
@@ -68,28 +68,31 @@ export default function Task({ task }: TaskProps) {
           </div>
         </div>
         <TaskProgress subTasks={task?.subTasks} />
-        <div className="flex gap-4 items-baseline">
-          <Badge
-            onClick={() => {
-              changeTaskStatus(task.id);
-            }}
-            className="capitalize cursor-pointer"
-            variant={task.status === "pending" ? "outline" : "default"}
-          >
-            {task.status}
-          </Badge>
-          <Badge variant="outline" className="flex items-baseline gap-1">
-            <LucideCalendar className="translate-y-px" size={16} />
-            {task.dueDate}
-          </Badge>
-          {hasSubTasks ? (
-            <SubtaskVisibilityButton
-              show={showSubTasks}
-              setShow={() => setShowSubTasks((prev) => !prev)}
+        <div className="flex items-baseline gap-4 flex-wrap">
+          <div className="flex gap-4 items-baseline mr-auto">
+            <Badge
+              className="capitalize"
+              variant={task.status === "pending" ? "outline" : "secondary"}
+            >
+              {task.status}
+            </Badge>
+            <Badge variant="secondary" className="flex items-baseline gap-1">
+              <LucideCalendar className="translate-y-px" size={16} />
+              {task.dueDate}
+            </Badge>
+          </div>
+          <div className="flex gap-2 items-center">
+            {hasSubTasks && (
+              <SubtaskVisibilityButton
+                show={showSubTasks}
+                setShow={() => setShowSubTasks((prev) => !prev)}
+              />
+            )}
+            <AiIntegrationButton
+              text={hasSubTasks ? "Regenerate Subtasks" : "Generate Subtasks"}
+              taskId={task.id}
             />
-          ) : (
-            <AiIntegrationButton text="Suggest Subtasks" className="ml-auto" />
-          )}
+          </div>
         </div>
         {hasSubTasks && showSubTasks && (
           <SubTaskCard taskId={task.id} subTasks={task.subTasks} />
@@ -108,12 +111,11 @@ function SubtaskVisibilityButton({
 }) {
   return (
     <Button
+      className="text-muted-foreground"
       onClick={setShow}
       variant="outline"
-      className="ml-auto text-violet-500 hover:text-violet-600 hover:bg-violet-50 hover:border-violet-200"
       size="sm"
     >
-      <LucideSparkles />
       {show ? "Hide" : "Show"} Subtask
     </Button>
   );

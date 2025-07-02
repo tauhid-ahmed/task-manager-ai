@@ -9,9 +9,9 @@ import TaskManagerProvider from "@/features/task-manager/provider";
 export default function Home() {
   return (
     <TaskManagerProvider>
-      <div className="max-w-5xl mx-auto px-6">
+      <div className="max-w-4xl mx-auto px-6">
         <div className="mt-10">
-          <h1 className="text-[clamp(1.8rem,4vw,3rem)] font-bold">
+          <h1 className="text-[clamp(1.8rem,4vw,2.5rem)] font-bold">
             Smart Task Manager with AI Assistance
           </h1>
           <p className="text-lg lg:text-xl">
