@@ -34,7 +34,7 @@ export default function AiIntegrationButton({
       }));
       generateSubtasks(taskId, subTasks);
     }
-  }, [data]);
+  }, [data, taskId, generateSubtasks]);
 
   return (
     <>
