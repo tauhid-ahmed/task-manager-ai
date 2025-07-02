@@ -198,6 +198,7 @@ function taskManagerReducer(
           if (task.id !== taskId) return task;
           return {
             ...task,
+            status: "pending",
             subTasks: action.payload.subTasks,
           };
         }),
