@@ -11,9 +11,8 @@ export default function TaskProgress({ subTasks }: Props) {
   const completedSubTaskLength = subTasks.filter(
     (subTask) => subTask.status === "completed"
   ).length;
-  const totalProgress = Math.min(
-    100,
-    (completedSubTaskLength / subTasksLength) * 100
+  const totalProgress = Math.floor(
+    Math.min(100, (completedSubTaskLength / subTasksLength) * 100)
   );
 
   return (
