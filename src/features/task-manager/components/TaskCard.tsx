@@ -3,7 +3,6 @@ import {
   LucideCircle,
   LucideCircleCheck,
   LucideEdit,
-  LucideSparkles,
   LucideTrash,
 } from "lucide-react";
 import { type Task } from "../types/task-manager.types";
@@ -13,6 +12,7 @@ import { useTaskManager } from "../provider";
 import { Badge } from "@/components/ui/badge";
 import SubTaskCard from "./SubTaskCard";
 import TaskProgress from "./TaskProgress";
+import AiIntegrationButton from "./AiIntegrationButton";
 
 type TaskProps = { task: Task } & React.ComponentProps<"div">;
 
@@ -77,16 +77,7 @@ export default function Task({ task }: TaskProps) {
             <LucideCalendar className="translate-y-px" size={16} />
             {task.dueDate}
           </Badge>
-          <div className="ml-auto">
-            <Button
-              className="text-violet-500 hover:text-violet-600 hover:bg-violet-50 hover:border-violet-200"
-              variant="outline"
-              size="sm"
-            >
-              <LucideSparkles />
-              Suggest subtasks
-            </Button>
-          </div>
+          <AiIntegrationButton text="Suggest Subtasks" className="ml-auto" />
         </div>
         {task.subTasks && (
           <SubTaskCard taskId={task.id} subTasks={task?.subTasks} />
