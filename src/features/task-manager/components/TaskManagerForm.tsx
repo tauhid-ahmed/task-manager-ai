@@ -29,6 +29,7 @@ type FormBodyProps = {
     name: string
   ) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   handleSelectChange: (value: "pending" | "completed") => void;
+  creatingMode: boolean;
 };
 
 export default function TaskManagerForm() {
@@ -70,7 +71,8 @@ export default function TaskManagerForm() {
 
     // it changes state to show form modal
     if (editingMode) return editTask({ updatedTask: newTask });
-    if (creatingMode) return addTask({ newTask });
+    if (creatingMode)
+      return addTask({ newTask: { ...newTask, status: "pending" } });
   };
 
   return (
@@ -81,6 +83,7 @@ export default function TaskManagerForm() {
           formData={formData}
           handleInputChange={handleInputChange}
           handleSelectChange={handleSelectChange}
+          creatingMode={creatingMode}
         />
         <FormFooter editingMode={editingMode} />
       </form>
@@ -92,6 +95,7 @@ function FormBody({
   formData,
   handleInputChange,
   handleSelectChange,
+  creatingMode,
 }: FormBodyProps) {
   return (
     <div className="space-y-5">
@@ -115,7 +119,11 @@ function FormBody({
       <div className="flex gap-4 [&>*]:flex-1">
         <InputContainer>
           <Label>Status</Label>
-          <Select value={formData.status} onValueChange={handleSelectChange}>
+          <Select
+            disabled={creatingMode}
+            value={formData.status}
+            onValueChange={handleSelectChange}
+          >
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
