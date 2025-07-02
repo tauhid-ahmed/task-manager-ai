@@ -13,21 +13,8 @@ const initialState: TaskManagerState = {
   tasks: [
     {
       id: crypto.randomUUID(),
-      title: "Plan birthday party",
-      description: "Task 1 description",
-      status: "pending",
-      dueDate: "2025-07-15",
-      subTasks: [
-        { id: crypto.randomUUID(), title: "SubTask 1", status: "pending" },
-        { id: crypto.randomUUID(), title: "SubTask 2", status: "pending" },
-        { id: crypto.randomUUID(), title: "SubTask 3", status: "completed" },
-        { id: crypto.randomUUID(), title: "SubTask 4", status: "pending" },
-      ],
-    },
-    {
-      id: crypto.randomUUID(),
-      title: "Task 2",
-      description: "Task 2 description",
+      title: "Prepare for job interview",
+      description: "Technical interview for React developer position",
       status: "pending",
       dueDate: "2025-07-15",
       subTasks: [
@@ -35,6 +22,20 @@ const initialState: TaskManagerState = {
         { id: crypto.randomUUID(), title: "SubTask 11", status: "pending" },
         { id: crypto.randomUUID(), title: "SubTask 12", status: "completed" },
         { id: crypto.randomUUID(), title: "SubTask 13", status: "pending" },
+      ],
+    },
+    {
+      id: crypto.randomUUID(),
+      title: "Plan birthday party",
+      description:
+        "Handle all arrangements for the birthday — venue, guests, food, and fun.",
+      status: "pending",
+      dueDate: "2025-07-15",
+      subTasks: [
+        { id: crypto.randomUUID(), title: "SubTask 1", status: "pending" },
+        { id: crypto.randomUUID(), title: "SubTask 2", status: "pending" },
+        { id: crypto.randomUUID(), title: "SubTask 3", status: "completed" },
+        { id: crypto.randomUUID(), title: "SubTask 4", status: "pending" },
       ],
     },
   ],
