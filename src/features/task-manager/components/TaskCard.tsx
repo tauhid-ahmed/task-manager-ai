@@ -88,7 +88,10 @@ export default function Task({ task }: TaskProps) {
                 setShow={() => setShowSubTasks((prev) => !prev)}
               />
             )}
-            <AiIntegrationButton text="Suggest Subtasks" taskId={task.id} />
+            <AiIntegrationButton
+              text={hasSubTasks ? "Regenerate Subtasks" : "Generate Subtasks"}
+              taskId={task.id}
+            />
           </div>
         </div>
         {hasSubTasks && showSubTasks && (
@@ -107,7 +110,12 @@ function SubtaskVisibilityButton({
   setShow: () => void;
 }) {
   return (
-    <Button onClick={setShow} variant="outline" size="sm">
+    <Button
+      className="text-muted-foreground"
+      onClick={setShow}
+      variant="outline"
+      size="sm"
+    >
       {show ? "Hide" : "Show"} Subtask
     </Button>
   );

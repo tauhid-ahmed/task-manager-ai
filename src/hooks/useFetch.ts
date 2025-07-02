@@ -20,6 +20,7 @@ export const useFetch = <T>(): FetchResponse<T> => {
 
   const mutation = useCallback(async (url: any, payload: any) => {
     try {
+      setResponse((prev) => ({ ...prev, status: "isLoading" }));
       const res = await fetch(url, {
         method: "POST",
         body: JSON.stringify(payload),
@@ -30,7 +31,13 @@ export const useFetch = <T>(): FetchResponse<T> => {
       if (!res.ok) throw new Error(`Request failed: ${res.status}`);
       const json = (await res.json()) as T;
       setResponse((prev) => ({ ...prev, status: "isSuccess", data: json }));
-    } catch (err) {}
+    } catch (err) {
+      const error =
+        err instanceof Error ? err : new Error("Something went wrong");
+      setResponse((prev) => ({ ...prev, status: "error", error }));
+    } finally {
+      setResponse((prev) => ({ ...prev, status: "idle" }));
+    }
   }, []);
 
   return {

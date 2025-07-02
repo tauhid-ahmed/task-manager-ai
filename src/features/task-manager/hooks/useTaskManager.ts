@@ -4,6 +4,7 @@ import {
   type TaskManagerEvent,
   type TaskManagerState,
   type NewTask,
+  type SubTask,
 } from "@/features/task-manager/types/task-manager.types";
 import { useReducer } from "react";
 
@@ -186,7 +187,21 @@ function taskManagerReducer(
     }
 
     // ✅ Add subtask for an existing task
-    case "GENERATE_SUBTASKS":
+    case "GENERATE_SUBTASKS": {
+      if (state.status !== "idle") return state;
+      const { taskId } = action.payload;
+      return {
+        ...state,
+        status: "idle",
+        tasks: state.tasks.map((task) => {
+          if (task.id !== taskId) return task;
+          return {
+            ...task,
+            subTasks: action.payload.subTasks,
+          };
+        }),
+      };
+    }
 
     // ✅ Close modal action
     case "CLOSE_MODAL": {
@@ -217,6 +232,13 @@ export const useTaskReducer = () => {
     dispatch({ type: "CHANGE_SUBTASK_STATUS", payload: { taskId, subTaskId } });
   };
 
+  const generateSubtasks = (taskId: string, subTasks: SubTask[]) => {
+    dispatch({
+      type: "GENERATE_SUBTASKS",
+      payload: { taskId: taskId, subTasks },
+    });
+  };
+
   const handleNewTaskButtonClick = () => {
     dispatch({ type: "ADD_TASK_BUTTON_CLICKED" });
   };
@@ -224,6 +246,7 @@ export const useTaskReducer = () => {
   const handleEditTaskButtonClick = (taskId: string) => {
     dispatch({ type: "EDIT_BUTTON_CLICKED", payload: { taskId } });
   };
+
   const handleDeleteTaskButtonClick = (taskId: string) => {
     dispatch({ type: "DELETE_BUTTON_CLICKED", payload: { taskId } });
   };
@@ -239,6 +262,7 @@ export const useTaskReducer = () => {
     editTask,
     changeTaskStatus,
     changeSubTaskStatus,
+    generateSubtasks,
     handleNewTaskButtonClick,
     handleEditTaskButtonClick,
     handleDeleteTaskButtonClick,
